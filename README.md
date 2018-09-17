@@ -25,11 +25,11 @@ python -m pytest tests
 ### Examples:
 
 ```
-gen = BruteForceStringGenerator()
-gen.next_string()
-'a'
+>>gen = BruteForceStringGenerator()
+>>gen.next_string()
+>>'a'
 
-gen = BruteForceStringGenerator(initial_sequence='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-gen.next_string()
-'baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+>>gen = BruteForceStringGenerator(initial_sequence='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+>>gen.next_string()
+>>'baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 ```
