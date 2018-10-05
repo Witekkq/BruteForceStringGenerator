@@ -1,7 +1,7 @@
 import string
 import pytest
 
-from brute_force_string_generator import BruteForceStringGenerator
+from brute_force_string_generator import BruteForceStringGenerator, Direction
 
 
 def test_brute_force_empty():
@@ -9,9 +9,16 @@ def test_brute_force_empty():
     assert (default_init.next_string() == 'a')
 
 
+def test_brute_force_direction():
+    direction_test = BruteForceStringGenerator(initial_sequence='aa', direction=Direction.LEFT)
+    assert (direction_test.next_string() == 'ba')
+    direction_test = BruteForceStringGenerator(initial_sequence='aa', direction=Direction.RIGHT)
+    assert (direction_test.next_string() == 'ab')
+
+
 def test_brute_long_string():
     long_string = BruteForceStringGenerator(initial_sequence='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    assert (long_string.next_string() == 'baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    assert (long_string.next_string() == 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab')
 
 
 def test_brute_for_loop():
@@ -42,6 +49,7 @@ def test_brute_brute():
     brute_string = BruteForceStringGenerator()
     for _ in range(1, 2000000):
         brute_string.next_string()
+
     assert (brute_string.next_string() == 'botid')
 
 
