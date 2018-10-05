@@ -10,50 +10,63 @@ def test_brute_force_empty():
 
 
 def test_brute_force_direction():
-    direction_test = BruteForceStringGenerator(initial_sequence='aa', direction=Direction.LEFT)
+    direction_test = BruteForceStringGenerator(sequence='aa', dir=Direction.LEFT)
     assert (direction_test.next_string() == 'ba')
-    direction_test = BruteForceStringGenerator(initial_sequence='aa', direction=Direction.RIGHT)
+    direction_test = BruteForceStringGenerator(sequence='aa', dir=Direction.RIGHT)
     assert (direction_test.next_string() == 'ab')
 
 
-def test_brute_long_string():
-    long_string = BruteForceStringGenerator(initial_sequence='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+def test_brute_force_edge():
+    direction_test = BruteForceStringGenerator(sequence='za', dir=Direction.LEFT)
+    assert (direction_test.next_string() == 'ab')
+    direction_test = BruteForceStringGenerator(sequence='az', dir=Direction.RIGHT)
+    assert (direction_test.next_string() == 'ba')
+
+
+def test_brute_force_long_string():
+    long_string = BruteForceStringGenerator(sequence='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
     assert (long_string.next_string() == 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab')
 
 
-def test_brute_for_loop():
+def test_brute_force_for_loop():
     loop_string = BruteForceStringGenerator(min_length=3)
-    for i in range(1, len(string.ascii_lowercase)):
+    for _ in range(1, len(string.ascii_lowercase)):
         loop_string.next_string()
-    assert (loop_string.next_string() == 'zaa')
+    assert (loop_string.next_string() == 'aaz')
 
-    for i in range(1, len(string.ascii_lowercase)):
+    for _ in range(1, len(string.ascii_lowercase)):
         loop_string.next_string()
-    assert (loop_string.next_string() == 'zba')
+    assert (loop_string.next_string() == 'abz')
 
-    for i in range(1, len(string.ascii_lowercase*len(string.ascii_lowercase))):
+    for _ in range(1, len(string.ascii_lowercase * len(string.ascii_lowercase))):
         loop_string.next_string()
-    assert (loop_string.next_string() == 'zbb')
+    assert (loop_string.next_string() == 'bbz')
 
 
-def test_brute_custom_chars():
-
+def test_brute_force_custom_chars():
     custom_string = BruteForceStringGenerator(chars='!@#', min_length=3)
     assert (custom_string.next_string() == '!!!')
-    assert (custom_string.next_string() == '@!!')
-    assert (custom_string.next_string() == '#!!')
+    assert (custom_string.next_string() == '!!@')
+    assert (custom_string.next_string() == '!!#')
 
 
-def test_brute_brute():
-
-    brute_string = BruteForceStringGenerator()
+def test_brute_force_brute_left():
+    brute_string = BruteForceStringGenerator(dir=Direction.LEFT)
     for _ in range(1, 2000000):
         brute_string.next_string()
 
     assert (brute_string.next_string() == 'botid')
 
 
-def test_max_length():
+def test_brute_force_brute_right():
+    brute_string = BruteForceStringGenerator()
+    for _ in range(1, 2000000):
+        brute_string.next_string()
+
+    assert (brute_string.next_string() == 'ditob')
+
+
+def test_brute_force_max_length():
     with pytest.raises(ValueError):
         brute_string = BruteForceStringGenerator('z', max_length=1)
         brute_string.next_string()
