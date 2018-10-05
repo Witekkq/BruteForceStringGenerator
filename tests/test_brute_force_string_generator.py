@@ -1,5 +1,7 @@
 import string
-from bruteforce import BruteForceStringGenerator
+import pytest
+
+from brute_force_string_generator import BruteForceStringGenerator
 
 
 def test_brute_force_empty():
@@ -41,3 +43,9 @@ def test_brute_brute():
     for _ in range(1, 2000000):
         brute_string.next_string()
     assert (brute_string.next_string() == 'botid')
+
+
+def test_max_length():
+    with pytest.raises(ValueError):
+        brute_string = BruteForceStringGenerator('z', max_length=1)
+        brute_string.next_string()
