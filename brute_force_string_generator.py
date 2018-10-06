@@ -1,14 +1,11 @@
 import string
 
-from enum import Enum, auto
+from enum import IntEnum
 
 
-class Direction(Enum):
+class Direction(IntEnum):
     LEFT = 0
     RIGHT = -1
-
-    def __int__(self):
-        return self.value
 
 
 class BruteForceStringGenerator(object):
@@ -34,8 +31,8 @@ class BruteForceStringGenerator(object):
                     raise ValueError("Max length")
                 return list(self.chars[0])
         else:
-            current[int(self.dir)] = self.chars[((self.chars.index(current[int(self.dir)]) + 1) % self.chars_num)]
-            if self.chars.index(current[int(self.dir)]) == 0:
+            current[self.dir] = self.chars[((self.chars.index(current[self.dir]) + 1) % self.chars_num)]
+            if self.chars.index(current[self.dir]) == 0:
                 if self.dir == Direction.LEFT:
                     return list(current[0]) + self._next(current[1:])
                 else:
