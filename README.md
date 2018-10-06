@@ -2,6 +2,7 @@
 Python class that generates string in bruteforce way
 
 ### Prerequisites
+Python  >= 3.4
 
 Development prerequisites
 
@@ -26,10 +27,10 @@ python -m pytest tests
 
 ```
 >>gen = BruteForceStringGenerator()
->>gen.next_string()
+>>next(gen)
 >>'a'
 
 >>gen = BruteForceStringGenerator(initial_sequence='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
->>gen.next_string()
->>'baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+>>next(gen)
+>>'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab'
 ```

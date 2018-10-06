@@ -10,24 +10,42 @@ class Direction(IntEnum):
 
 class BruteForceStringGenerator(object):
 
-    def __init__(self, sequence=[], chars=string.ascii_lowercase, dir=Direction.RIGHT, min_length=1, max_length=0):
-        self.sequence = list(sequence)
+    def __init__(self, sequence='', chars=string.ascii_lowercase, dir=Direction.RIGHT, min_length=1, max_length=0):
+        self.sequence = sequence
+        self._sequence_list = list(sequence)
         self.chars = chars
         self.dir = dir
         self.min_length = max(0, min_length)
         self.max_length = max(0, max_length)
         self.chars_num = len(self.chars)
 
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.next_string()
+        return self.sequence
+
+    def __len__(self):
+        return len(self.sequence)
+
+    @property
+    def sequence(self):
+        return "".join(self._sequence_list)
+
+    @sequence.setter
+    def sequence(self, sequence):
+        self._sequence_list = list(sequence)
+
     def next_string(self):
-        self.sequence = self._next(self.sequence)
-        return "".join(self.sequence)
+        self._sequence_list = self._next(self._sequence_list)
 
     def _next(self, current):
         if len(current) <= 0:
-            if not self.sequence:
+            if not self._sequence_list:
                 return list(self.chars[0] * self.min_length)
             else:
-                if self.max_length and len(self.sequence) >= self.max_length:
+                if self.max_length and len(self._sequence_list) >= self.max_length:
                     raise ValueError("Max length")
                 return list(self.chars[0])
         else:
@@ -38,4 +56,3 @@ class BruteForceStringGenerator(object):
                 else:
                     return self._next(current[:-1]) + list(current[-1])
         return current
-
