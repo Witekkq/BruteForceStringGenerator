@@ -1,6 +1,8 @@
 # BruteForceStringGenerator
 Python class that generates string in bruteforce way
 
+![](docs/string_gen.gif)
+
 ### Prerequisites
 Python  >= 3.4
 
