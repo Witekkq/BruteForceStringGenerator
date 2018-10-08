@@ -24,10 +24,12 @@ class BruteForceStringGenerator(object):
 
     def __next__(self):
         self.next_string()
+        if self.max_length and len(self) > self.max_length:
+            raise StopIteration
         return self.sequence
 
     def __len__(self):
-        return len(self.sequence)
+        return len(self._sequence_list)
 
     @property
     def sequence(self):
@@ -45,8 +47,6 @@ class BruteForceStringGenerator(object):
             if not self._sequence_list:
                 return list(self.chars[0] * self.min_length)
             else:
-                if self.max_length and len(self._sequence_list) >= self.max_length:
-                    raise ValueError("Max length")
                 return list(self.chars[0])
         else:
             current[self.dir] = self.chars[((self.chars.index(current[self.dir]) + 1) % self.chars_num)]

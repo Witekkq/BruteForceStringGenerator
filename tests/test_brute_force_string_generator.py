@@ -54,7 +54,6 @@ def test_brute_force_brute_left():
     brute_string = BruteForceStringGenerator(dir=Direction.LEFT)
     for _ in range(1, 2000000):
         next(brute_string)
-
     assert (next(brute_string) == 'botid')
 
 
@@ -62,11 +61,17 @@ def test_brute_force_brute_right():
     brute_string = BruteForceStringGenerator()
     for _ in range(1, 2000000):
         next(brute_string)
-
     assert (next(brute_string) == 'ditob')
 
 
 def test_brute_force_max_length():
-    with pytest.raises(ValueError):
+    with pytest.raises(StopIteration):
         brute_string = BruteForceStringGenerator('z', max_length=1)
         next(brute_string)
+
+
+def test_brute_force_generator():
+    brute_string = BruteForceStringGenerator(max_length=3)
+    for text in brute_string:
+        pass
+    assert (text == 'zzz')
