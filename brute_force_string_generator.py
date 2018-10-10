@@ -56,3 +56,45 @@ class BruteForceStringGenerator(object):
                 else:
                     return self._next(current[:-1]) + list(current[-1])
         return current
+
+
+class BruteForceListGenerator(BruteForceStringGenerator):
+
+    def __init__(self, sequence, **kwargs):
+
+        BruteForceStringGenerator.__init__(self, sequence=sequence)
+        self.end_string = None
+        self.number = None
+        self.iterator = 0
+        for key, value in kwargs.items():
+            if key == 'end':
+                self.end_string = value
+
+            elif key == 'num':
+                self.number = value
+            else:
+                raise ValueError("Missing params")
+
+    def to_number(self):
+        self.next_string()
+        self.iterator += 1
+        if self.sequence and self.iterator > self.number:
+            raise StopIteration
+        return self.sequence
+
+    def to_string(self):
+        if self.sequence and self.sequence == self.end_string:
+            raise StopIteration
+        self.next_string()
+        return self.sequence
+
+    def __next__(self):
+        if self.end_string:
+            return self.to_string()
+        else:
+            return self.to_number()
+
+    @staticmethod
+    def create(sequence, **kwargs):
+        gen = BruteForceListGenerator(sequence=sequence, **kwargs)
+        return [element for element in gen]
