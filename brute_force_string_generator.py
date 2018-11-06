@@ -1,5 +1,5 @@
+from __future__ import annotations
 import string
-
 from enum import IntEnum
 
 
@@ -10,39 +10,73 @@ class Direction(IntEnum):
 
 class BruteForceStringGenerator(object):
 
-    def __init__(self, sequence='', chars=string.ascii_lowercase, dir=Direction.RIGHT, min_length=1, max_length=0):
+    __slots__ = 'chars', '_sequence_list', '_dir', '_min_length', '_max_length', 'chars_num'
+
+    def __init__(self, sequence: str = '', chars: str = string.ascii_lowercase, direction: Direction = Direction.RIGHT,
+                 min_length: int = 1, max_length: int=0) -> None:
+
         self.sequence = sequence
         self._sequence_list = list(sequence)
         self.chars = chars
-        self.dir = dir
+        self.dir = direction
         self.min_length = max(0, min_length)
         self.max_length = max(0, max_length)
         self.chars_num = len(self.chars)
 
-    def __iter__(self):
+    def __iter__(self) -> BruteForceStringGenerator:
         return self
 
-    def __next__(self):
+    def __next__(self) -> str:
         self.next_string()
         if self.max_length and len(self) > self.max_length:
             raise StopIteration
         return self.sequence
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._sequence_list)
 
     @property
-    def sequence(self):
+    def sequence(self) -> str:
         return "".join(self._sequence_list)
 
     @sequence.setter
-    def sequence(self, sequence):
+    def sequence(self, sequence: str) -> None:
         self._sequence_list = list(sequence)
 
-    def next_string(self):
+    @property
+    def dir(self):
+        return self._dir
+
+    @dir.setter
+    def dir(self, direction):
+        if type(direction) is not Direction:
+            raise ValueError("Direction should be Direction Type")
+        self._dir = direction
+
+    @property
+    def min_length(self):
+        return self._min_length
+
+    @min_length.setter
+    def min_length(self, min_length):
+        if type(min_length) is not int or min_length <= 0:
+            raise ValueError("min_length should be integer greater than 0")
+        self._min_length = min_length
+
+    @property
+    def max_length(self):
+        return self._max_length
+
+    @max_length.setter
+    def max_length(self, max_length):
+        if type(max_length) is not int or max_length < 0:
+            raise ValueError("max_length should be integer")
+        self._max_length = max_length
+
+    def next_string(self) -> None:
         self._sequence_list = self._next(self._sequence_list)
 
-    def _next(self, current):
+    def _next(self, current: list) -> list:
         if len(current) <= 0:
             if not self._sequence_list:
                 return list(self.chars[0] * self.min_length)
@@ -56,45 +90,3 @@ class BruteForceStringGenerator(object):
                 else:
                     return self._next(current[:-1]) + list(current[-1])
         return current
-
-
-class BruteForceListGenerator(BruteForceStringGenerator):
-
-    def __init__(self, sequence, **kwargs):
-
-        BruteForceStringGenerator.__init__(self, sequence=sequence)
-        self.end_string = None
-        self.number = None
-        self.iterator = 0
-        for key, value in kwargs.items():
-            if key == 'end':
-                self.end_string = value
-
-            elif key == 'num':
-                self.number = value
-            else:
-                raise ValueError("Missing params")
-
-    def to_number(self):
-        self.next_string()
-        self.iterator += 1
-        if self.sequence and self.iterator > self.number:
-            raise StopIteration
-        return self.sequence
-
-    def to_string(self):
-        if self.sequence and self.sequence == self.end_string:
-            raise StopIteration
-        self.next_string()
-        return self.sequence
-
-    def __next__(self):
-        if self.end_string:
-            return self.to_string()
-        else:
-            return self.to_number()
-
-    @staticmethod
-    def create(sequence, **kwargs):
-        gen = BruteForceListGenerator(sequence=sequence, **kwargs)
-        return [element for element in gen]
