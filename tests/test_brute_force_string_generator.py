@@ -10,16 +10,16 @@ def test_brute_force_empty():
 
 
 def test_brute_force_direction():
-    direction_test = BruteForceStringGenerator(sequence='aa', dir=Direction.LEFT)
+    direction_test = BruteForceStringGenerator(sequence='aa', direction=Direction.LEFT)
     assert (next(direction_test) == 'ba')
-    direction_test = BruteForceStringGenerator(sequence='aa', dir=Direction.RIGHT)
+    direction_test = BruteForceStringGenerator(sequence='aa', direction=Direction.RIGHT)
     assert (next(direction_test) == 'ab')
 
 
 def test_brute_force_edge():
-    direction_test = BruteForceStringGenerator(sequence='za', dir=Direction.LEFT)
+    direction_test = BruteForceStringGenerator(sequence='za', direction=Direction.LEFT)
     assert (next(direction_test) == 'ab')
-    direction_test = BruteForceStringGenerator(sequence='az', dir=Direction.RIGHT)
+    direction_test = BruteForceStringGenerator(sequence='az', direction=Direction.RIGHT)
     assert (next(direction_test) == 'ba')
 
 
@@ -51,7 +51,7 @@ def test_brute_force_custom_chars():
 
 
 def test_brute_force_brute_left():
-    brute_string = BruteForceStringGenerator(dir=Direction.LEFT)
+    brute_string = BruteForceStringGenerator(direction=Direction.LEFT)
     for _ in range(1, 2000000):
         next(brute_string)
     assert (next(brute_string) == 'botid')
@@ -75,3 +75,10 @@ def test_brute_force_generator():
     for text in brute_string:
         pass
     assert (text == 'zzz')
+
+
+def test_not_direction_type():
+    for i in range(-1, 2):
+        with pytest.raises(ValueError):
+            BruteForceStringGenerator('a', max_length=1, direction=i)
+

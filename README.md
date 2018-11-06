@@ -9,7 +9,8 @@ Python  >= 3.4
 Development prerequisites
 
 ```
-pip install pytest
+pytest
+mypy
 ```
 
 Production prerequisites
@@ -21,6 +22,7 @@ Production prerequisites
 ## Running the tests
 
 ```
+mypy brute_force_string_generator.py
 python -m pytest tests
 ```
 
