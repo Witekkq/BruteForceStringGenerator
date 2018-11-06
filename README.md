@@ -9,19 +9,23 @@ Python  >= 3.4
 Development prerequisites
 
 ```
-pytest
-mypy
+pipenv install
 ```
 
 Production prerequisites
 
 ```
-
+pipenv install --dev
 ```
 
+To activate project's virtualenv run:
+```
+pipenv shell
+```
 ## Running the tests
 
 ```
+pipenv check
 mypy brute_force_string_generator.py
 python -m pytest tests
 ```
