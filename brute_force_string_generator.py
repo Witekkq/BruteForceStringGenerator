@@ -10,8 +10,6 @@ class Direction(IntEnum):
 
 class BruteForceStringGenerator(object):
 
-    __slots__ = 'chars', '_sequence_list', '_dir', '_min_length', '_max_length', 'chars_num'
-
     def __init__(self, sequence: str = '', chars: str = string.ascii_lowercase, direction: Direction = Direction.RIGHT,
                  min_length: int = 1, max_length: int=0) -> None:
 
@@ -28,12 +26,13 @@ class BruteForceStringGenerator(object):
 
     def __next__(self) -> str:
         self.next_string()
-        if self.max_length and len(self) > self.max_length:
-            raise StopIteration
         return self.sequence
 
     def __len__(self) -> int:
         return len(self._sequence_list)
+
+    def __repr__(self):
+        return f"{self.sequence}"
 
     @property
     def sequence(self) -> str:
@@ -76,13 +75,24 @@ class BruteForceStringGenerator(object):
     def next_string(self) -> None:
         self._sequence_list = self._next(self._sequence_list)
 
+    def check_length(self, length, equal=True):
+        if self.max_length:
+            if equal and length >= self.max_length:
+                raise StopIteration
+            elif not equal and length > self.max_length:
+                raise StopIteration
+            else:
+                pass
+
     def _next(self, current: list) -> list:
         if len(current) <= 0:
             if not self._sequence_list:
                 return list(self.chars[0] * self.min_length)
             else:
+                self.check_length(len(self))
                 return list(self.chars[0])
         else:
+            self.check_length(len(self), False)
             current[self.dir] = self.chars[((self.chars.index(current[self.dir]) + 1) % self.chars_num)]
             if self.chars.index(current[self.dir]) == 0:
                 if self.dir == Direction.LEFT:
