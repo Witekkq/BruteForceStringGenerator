@@ -82,3 +82,59 @@ def test_not_direction_type():
         with pytest.raises(ValueError):
             BruteForceStringGenerator('a', max_length=1, direction=i)
 
+
+def test_brute_force_with_space():
+    custom_string = BruteForceStringGenerator(chars='a ', min_length=3)
+    assert (next(custom_string) == 'aaa')
+    assert (next(custom_string) == 'aa ')
+    assert (next(custom_string) == 'a a')
+
+
+def test_brute_force_with_polish_letters():
+    custom_string = BruteForceStringGenerator(chars='ąćęłńóśźż', min_length=3)
+    for _ in range(1, 2003):
+        next(custom_string)
+    assert (next(custom_string) == 'ćśśń')
+
+
+def test_brute_force_with_polish_letters_backward():
+    custom_string = BruteForceStringGenerator(chars='ąćęłńóśźż', min_length=3, direction=Direction.LEFT)
+    for _ in range(1, 2003):
+        next(custom_string)
+    assert (next(custom_string) == 'ńśść')
+
+
+def test_brute_force_with_german_letters():
+    custom_string = BruteForceStringGenerator(chars='äöüß', min_length=3)
+    for _ in range(1, 2003):
+        next(custom_string)
+    assert (next(custom_string) == 'äüüöäü')
+
+
+def test_brute_force_with_german_letters_backward():
+    custom_string = BruteForceStringGenerator(chars='äöüß', min_length=3, direction=Direction.LEFT)
+    for _ in range(1, 2003):
+        next(custom_string)
+    assert (next(custom_string) == 'üäöüüä')
+
+
+def test_brute_force_with_czech_letters():
+    custom_string = BruteForceStringGenerator(chars='ýžáčďéěíňóřšťúů', max_length=4)
+    for _ in custom_string:
+        pass
+    assert (custom_string.sequence == 'ůůůý')
+
+
+def test_brute_force_with_czech_letters_backward():
+    custom_string = BruteForceStringGenerator(chars='ýžáčďéěíňóřšťúů', max_length=4, direction=Direction.LEFT)
+    for _ in custom_string:
+        pass
+    assert (custom_string.sequence == 'ýůůů')
+
+
+def test_brute_force_string_max_length():
+    for i in range(1, 10):
+        custom_string = BruteForceStringGenerator(chars='ab', max_length=i)
+        for _ in custom_string:
+            pass
+        assert (len(custom_string) == i)
