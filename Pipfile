@@ -6,9 +6,10 @@ name = "pypi"
 [packages]
 
 [dev-packages]
+tox = "*"
 pytest = "*"
 mypy = "*"
-
+hypothesis = "*"
 
 [requires]
 python_version = "3.7"
