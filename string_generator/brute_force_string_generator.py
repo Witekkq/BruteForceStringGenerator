@@ -8,10 +8,15 @@ class Direction(IntEnum):
     RIGHT = -1
 
 
-class BruteForceStringGenerator(object):
-
-    def __init__(self, sequence: str = '', chars: str = string.ascii_lowercase, direction: Direction = Direction.RIGHT,
-                 min_length: int = 1, max_length: int=0) -> None:
+class BruteForceStringGenerator:
+    def __init__(
+        self,
+        sequence: str = "",
+        chars: str = string.ascii_lowercase,
+        direction: Direction = Direction.RIGHT,
+        min_length: int = 1,
+        max_length: int = 0,
+    ) -> None:
 
         self.sequence = sequence
         self._sequence_list = list(sequence)
@@ -39,21 +44,21 @@ class BruteForceStringGenerator(object):
         return "".join(self._sequence_list)
 
     @sequence.setter
-    def sequence(self, sequence: str) -> None:
+    def sequence(self, sequence: str):
         self._sequence_list = list(sequence)
 
     @property
-    def dir(self):
+    def dir(self) -> Direction:
         return self._dir
 
     @dir.setter
-    def dir(self, direction):
+    def dir(self, direction: Direction):
         if type(direction) is not Direction:
             raise ValueError("Direction should be Direction Type")
         self._dir = direction
 
     @property
-    def min_length(self):
+    def min_length(self) -> int:
         return self._min_length
 
     @min_length.setter
@@ -63,7 +68,7 @@ class BruteForceStringGenerator(object):
         self._min_length = min_length
 
     @property
-    def max_length(self):
+    def max_length(self) -> int:
         return self._max_length
 
     @max_length.setter
@@ -72,28 +77,25 @@ class BruteForceStringGenerator(object):
             raise ValueError("max_length should be integer")
         self._max_length = max_length
 
-    def next_string(self) -> None:
+    def next_string(self):
         self._sequence_list = self._next(self._sequence_list)
 
-    def check_length(self, length, equal=True):
-        if self.max_length:
-            if equal and length >= self.max_length:
-                raise StopIteration
-            elif not equal and length > self.max_length:
-                raise StopIteration
-            else:
-                pass
+    def check_length(self, length: int):
+        if self.max_length and length > self.max_length:
+            raise StopIteration
 
     def _next(self, current: list) -> list:
         if len(current) <= 0:
             if not self._sequence_list:
                 return list(self.chars[0] * self.min_length)
             else:
-                self.check_length(len(self))
+                self.check_length(len(self) + 1)
                 return list(self.chars[0])
         else:
-            self.check_length(len(self), False)
-            current[self.dir] = self.chars[((self.chars.index(current[self.dir]) + 1) % self.chars_num)]
+            self.check_length(len(self))
+            current[self.dir] = self.chars[
+                ((self.chars.index(current[self.dir]) + 1) % self.chars_num)
+            ]
             if self.chars.index(current[self.dir]) == 0:
                 if self.dir == Direction.LEFT:
                     return list(current[0]) + self._next(current[1:])

@@ -1,8 +1,6 @@
 # BruteForceStringGenerator
 Python class that generates string in bruteforce way
 
-![](docs/string_gen.gif)
-
 ### Prerequisites
 Python  >= 3.4
 
@@ -25,9 +23,8 @@ pipenv shell
 ## Running the tests
 
 ```
-pipenv check
 mypy brute_force_string_generator.py
-python -m pytest tests
+pytest
 ```
 
 
@@ -42,3 +39,17 @@ python -m pytest tests
 >>next(gen)
 >>'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab'
 ```
+
+### Class
+
+```
+sequence - starting string, default: ''
+chars - pass custom letters, default: ascii_lowercase
+direction - side to append letter to string: one of Direction.RIGHT, Direction.LEFT, default: Direction.RIGHT
+min_length - initial length of string, default: 1
+max_length - end length of string, default: 0 - nolimit
+```                 
+                 
+                
+
+![](docs/string_gen.gif)
