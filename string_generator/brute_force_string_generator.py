@@ -16,8 +16,12 @@ class BruteForceStringGenerator:
         direction: Direction = Direction.RIGHT,
         min_length: int = 1,
         max_length: int = 0,
+        prefix: str = "",
+        postfix: str = ""
     ) -> None:
 
+        self.prefix = prefix
+        self.postfix = postfix
         self.sequence = sequence
         self._sequence_list = list(sequence)
         self.chars = chars
@@ -31,7 +35,7 @@ class BruteForceStringGenerator:
 
     def __next__(self) -> str:
         self.next_string()
-        return self.sequence
+        return f"{self.prefix}{self.sequence}{self.postfix}"
 
     def __len__(self) -> int:
         return len(self._sequence_list)
@@ -102,3 +106,6 @@ class BruteForceStringGenerator:
                 else:
                     return self._next(current[:-1]) + list(current[-1])
         return current
+
+if __name__ == "__main__":
+    b = BruteForceStringGenerator(prefix="witek")
